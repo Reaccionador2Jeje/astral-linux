@@ -1,12 +1,12 @@
 # Building ASTRAL Linux
 
-ASTRAL is being developed in verifiable milestones. The PIXEL desktop assets can now be validated and installed on an existing Ubuntu system; the bootable ISO pipeline is a separate milestone and is not yet implemented.
+ASTRAL is being developed in verifiable milestones. The PIXEL desktop and original sound themes can now be installed on an existing Ubuntu system; the bootable ISO pipeline is a separate milestone and is not yet implemented.
 
 ## Development requirements
 
 - Ubuntu or Debian development host.
 - Git, make, Python 3, and a POSIX shell.
-- For a PIXEL test machine, an Ubuntu installation with access to its package repositories.
+- For a PIXEL test machine, an Ubuntu installation with access to its package repositories and a working audio service.
 
 ## Validate the repository
 
@@ -14,7 +14,7 @@ ASTRAL is being developed in verifiable milestones. The PIXEL desktop assets can
 make check
 ```
 
-This checks required project files, PIXEL assets, shell syntax, and the Openbox XML configuration.
+This checks required project files, PIXEL XML, shell syntax, and generates all five sound themes in a temporary directory to validate their WAV files.
 
 ## Install PIXEL on an existing Ubuntu installation
 
@@ -22,9 +22,18 @@ This checks required project files, PIXEL assets, shell syntax, and the Openbox 
 sudo sh ./scripts/install-pixel.sh
 ```
 
-The installer installs Openbox, tint2, PCManFM, LXTerminal, LXAppearance, and the wallpaper utility; installs the ASTRAL PIXEL session entry; and seeds the default configuration for new users and the invoking user. Select **ASTRAL PIXEL** from the display manager's session chooser, then sign in.
+The installer installs Openbox, tint2, PCManFM, LXTerminal, LXAppearance, feh, Python 3, and the Canberra GTK sound player; generates the five original ASTRAL sound themes; installs the ASTRAL PIXEL session entry; and seeds the default desktop configuration for new users and the invoking user. Select **ASTRAL PIXEL** from the display manager's session chooser, then sign in. PIXEL plays its original startup cue at login.
 
 This modifies the selected Ubuntu installation. Review the script before running it on an important machine.
+
+Sound events can be previewed with:
+
+```sh
+scripts/play-style-sound.sh PIXEL desktop-login
+scripts/play-style-sound.sh NOVA message-new-instant
+```
+
+Available styles: PIXEL, DOSERA, MOSAIC, FORGE, NOVA. See [sound themes](../desktop/sounds/README.md).
 
 ## ISO milestone (not yet available)
 
