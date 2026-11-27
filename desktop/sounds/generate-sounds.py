@@ -21,6 +21,8 @@ PROFILES = {
     "METROVA": {"notes": (494, 659, 831), "wave": "sine", "length": 0.18},
 }
 EVENTS = {
+    "startup": (0, 1, 2),
+    "shutdown": (2, 1, 0),
     "desktop-login": (0, 1, 2),
     "desktop-logout": (2, 1, 0),
     "message-new-instant": (1, 2),
