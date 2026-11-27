@@ -2,59 +2,54 @@ name: ASTRAL ISO build
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - "installers/iso/**"
-      - "scripts/install-pixel.sh"
-      - "scripts/play-style-sound.sh"
-      - "scripts/astral-power.sh"
-      - "desktop/pixel/**"
-      - "desktop/sounds/**"
-      - ".github/workflows/iso-build.yml"
 
 permissions:
   contents: read
 
+# Penguins' Eggs remasters the running OS and needs real kernel mounts.
+# This job must run only on a dedicated, disposable Ubuntu VM runner.
 jobs:
   build-classic-iso:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 180
+    runs-on: [self-hosted, linux, x64, astral-eggs-vm]
+    timeout-minutes: 240
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Prepare isolated Ubuntu builder
+      - name: Verify dedicated disposable VM
         run: |
-          docker pull ubuntu:24.04
-          docker create --privileged --name astral-eggs-builder ubuntu:24.04 sleep infinity
-          docker start astral-eggs-builder
-          docker cp "$GITHUB_WORKSPACE/." astral-eggs-builder:/tmp/astral-source
+          set -eu
+          test -f /etc/astral-ephemeral-builder || {
+            echo "::error::This runner is not marked as a disposable ASTRAL ISO VM."
+            exit 1
+          }
+          test "$( . /etc/os-release; printf '%s' "${ID:-}" )" = ubuntu
+          test "$( . /etc/os-release; printf '%s' "${VERSION_ID:-}" )" = 24.04
+          test "$(uname -m)" = x86_64
+          test "$(findmnt -n -o FSTYPE /)" != overlay
+          command -v sudo >/dev/null
+          sudo -n true
 
       - name: Build ASTRAL Classic with Penguins' Eggs
         run: |
-          docker exec astral-eggs-builder bash /tmp/astral-source/installers/iso/build-iso.sh
+          sudo --preserve-env=ASTRAL_OUT_DIR bash installers/iso/build-iso.sh
+        env:
+          ASTRAL_OUT_DIR: /home/eggs
 
-      - name: Retrieve and validate ISO
-        if: always()
+      - name: Validate ISO boot catalog
         run: |
-          mkdir -p dist
-          if docker container inspect astral-eggs-builder >/dev/null 2>&1; then
-            docker cp astral-eggs-builder:/home/eggs/astral-classic-amd64.iso dist/ 2>/dev/null || true
-            docker cp astral-eggs-builder:/home/eggs/astral-classic-amd64.iso.sha256 dist/ 2>/dev/null || true
-          fi
-          if [ -s dist/astral-classic-amd64.iso ]; then
-            sudo apt-get update
-            sudo apt-get install -y xorriso
-            file dist/astral-classic-amd64.iso
-            xorriso -indev dist/astral-classic-amd64.iso -report_el_torito plain
-            (cd dist && sha256sum -c astral-classic-amd64.iso.sha256)
-          else
-            echo "No ISO artifact was produced by the Penguins' Eggs build."
-            exit 1
-          fi
+          set -eu
+          test -s /home/eggs/astral-classic-amd64.iso
+          test -s /home/eggs/astral-classic-amd64.iso.sha256
+          command -v xorriso
+          file /home/eggs/astral-classic-amd64.iso
+          xorriso -indev /home/eggs/astral-classic-amd64.iso -report_el_torito plain
+          cd /home/eggs
+          sha256sum -c astral-classic-amd64.iso.sha256
+          mkdir -p "$GITHUB_WORKSPACE/dist"
+          cp astral-classic-amd64.iso astral-classic-amd64.iso.sha256 "$GITHUB_WORKSPACE/dist/"
 
       - name: Upload ISO artifact
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: astral-classic-amd64-iso
@@ -62,7 +57,3 @@ jobs:
             dist/astral-classic-amd64.iso
             dist/astral-classic-amd64.iso.sha256
           if-no-files-found: error
-
-      - name: Remove builder container
-        if: always()
-        run: docker rm -f astral-eggs-builder 2>/dev/null || true
