@@ -16,6 +16,11 @@ Output: `dist/astral-classic-amd64.iso` and its SHA256 file.
 
 This is an experimental Ubuntu live-build configuration. Ubuntu support in the installed live-build version, package availability (especially Calamares), and BIOS/UEFI boot layout must be verified by CI and actual boot tests. A successful file build alone does not prove that the ISO boots or that Calamares can install.
 
+
+### Ubuntu Noble live-build compatibility
+
+The Ubuntu 24.04 package ships an older live-build interface than current Debian manpages. The build script intentionally uses the Noble-supported option set: it does not pass the newer plural `--bootloaders` option or `--image-name`. The ISO filename is discovered from the build output and then normalized to the ASTRAL artifact name.
+
 ## Limbo test target
 
 Use Limbo's **PC (x86)** machine with an **x86_64/64-bit** CPU when available, BIOS boot, IDE CD-ROM containing the ISO, and a blank virtual hard disk for installation tests. Start with modest emulated resources (for example 2 CPU cores and 2 GB RAM); increase RAM if the live desktop fails to start. Do not attach a real disk containing personal files.
