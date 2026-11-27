@@ -1,0 +1,26 @@
+# Ubuntu Noble live system packages for the first Limbo-compatible ISO.
+casper
+live-boot
+live-config
+live-config-systemd
+xserver-xorg
+xinit
+openbox
+tint2
+pcmanfm
+lxterminal
+lightdm
+lightdm-gtk-greeter
+network-manager
+sudo
+dbus-x11
+alsa-utils
+pulseaudio
+paprefs
+python3
+python3-pip
+fonts-dejavu
+calamares
+grub-pc-bin
+grub-efi-amd64-bin
+shim-signed
