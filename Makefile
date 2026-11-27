@@ -1,7 +1,7 @@
 SHELL := /bin/sh
 
-.PHONY: check check-project check-pixel check-installers check-graphical-installer check-iso
-check: check-project check-pixel check-installers check-graphical-installer check-iso
+.PHONY: check check-project check-pixel check-installers check-graphical-installer check-iso check-site
+check: check-project check-pixel check-installers check-graphical-installer check-iso check-site
 
 check-project:
 	sh ./scripts/check-project.sh
@@ -17,3 +17,6 @@ check-graphical-installer:
 
 check-iso:
 	sh ./scripts/check-iso-build.sh
+
+check-site:
+	sh ./scripts/check-site.sh
