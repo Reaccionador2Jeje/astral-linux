@@ -4,15 +4,24 @@
 
 ASTRAL targets both beige tower PCs from the late 1990s/early 2000s and modern computers. Its goal is a classic, lightweight interface with practical Linux software on hardware that the selected base can support.
 
-## Five original desktop personalities
+## Eleven original desktop personalities
 
+### Classic and early-computing styles
 - **DOSERA** — compact, group-based application desktop.
 - **PIXEL** — classic taskbar and desktop workflow.
 - **MOSAIC** — panel-oriented workspace and visual file navigation.
 - **FORGE** — restrained, productivity-focused desktop.
 - **NOVA** — colorful multimedia-era desktop.
 
-These are original ASTRAL designs inspired by classic computing eras, not copies of proprietary operating-system assets. They are desktop configurations, not separate operating systems.
+### Extended desktop styles
+- **HORIZON** — friendly blue/green desktop with approachable panels.
+- **AEROLITH** — experimental layered surfaces and translucent visual language.
+- **PRISM** — luminous, glass-inspired desktop surfaces.
+- **LUMEN** — polished taskbar and refined desktop workflow.
+- **TILESHIFT** — touch-first, full-screen tile workspace.
+- **METROVA** — hybrid tile launcher and conventional desktop.
+
+The extended styles are inspired by broad desktop-design eras from the early-to-mid 2000s through touch-oriented interfaces. All names, sound cues, themes, and artwork are original ASTRAL designs, not copies of proprietary operating-system assets.
 
 ## Editions
 
@@ -28,10 +37,10 @@ Hardware compatibility is not guaranteed until tested. See [hardware compatibili
 
 ## Project status
 
-Early development. No installable ISO is published yet.
+Early development. PIXEL is the first implemented desktop session. The other ten personalities currently have design specifications and sound palettes; their full desktop sessions are still in development. No installable ISO is published yet.
 
 ## First milestone
 
 Build a reproducible Ubuntu-based live image with the PIXEL personality, AtDev branding, BIOS-mode and UEFI boot testing where supported, and a basic installer path. Legacy hardware support will be developed and tested separately.
 
-See [architecture](docs/architecture.md), [hardware compatibility](docs/hardware-compatibility.md), and [building](docs/building.md).
+See [desktop personalities](desktop/README.md), [hardware compatibility](docs/hardware-compatibility.md), and [building](docs/building.md).
