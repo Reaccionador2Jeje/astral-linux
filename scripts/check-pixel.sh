@@ -22,7 +22,7 @@ PY
   python3 - "$SOUND_TMP" <<'PY'
 import os, sys, wave
 root = sys.argv[1]
-styles = ("PIXEL", "DOSERA", "MOSAIC", "FORGE", "NOVA")
+styles = ("PIXEL", "DOSERA", "MOSAIC", "FORGE", "NOVA", "HORIZON", "AEROLITH", "PRISM", "LUMEN", "TILESHIFT", "METROVA")
 events = ("desktop-login", "desktop-logout", "message-new-instant",
           "dialog-warning", "dialog-error", "device-added", "device-removed")
 for style in styles:
@@ -32,7 +32,7 @@ for style in styles:
         with wave.open(path, "rb") as audio:
             assert audio.getnchannels() == 1 and audio.getframerate() == 22050
             assert audio.getnframes() > 0
-print("ASTRAL sound themes: valid (5 styles, 7 events each)")
+print("ASTRAL sound themes: valid (11 styles, 7 events each)")
 PY
 fi
 sh -n "$ROOT/scripts/install-pixel.sh"
