@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_config xmlns="http://openbox.org/3.4/rc">
+  <resistance><strength>10</strength><screen_edge_strength>20</screen_edge_strength></resistance>
+  <focus><focusNew>yes</focusNew><followMouse>no</followMouse><raiseOnFocus>no</raiseOnFocus></focus>
+  <theme><name>Clearlooks</name><titleLayout>NLIMC</titleLayout></theme>
+  <desktops><number>1</number><firstdesk>1</firstdesk><names><name>ASTRAL PIXEL</name></names></desktops>
+  <keyboard><keybind key="W-e"><action name="Execute"><command>pcmanfm</command></action></keybind><keybind key="W-t"><action name="Execute"><command>lxterminal</command></action></keybind></keyboard>
+</openbox_config>
