@@ -5,7 +5,7 @@ import os
 import struct
 import wave
 
-ROOT = "/usr/share/sounds"
+ROOT = os.environ.get("ASTRAL_SOUND_ROOT", "/usr/share/sounds")
 RATE = 22050
 PROFILES = {
     "PIXEL": {"notes": (660, 880, 990), "wave": "sine", "length": 0.16},
