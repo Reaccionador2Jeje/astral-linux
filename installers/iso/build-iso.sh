@@ -49,18 +49,15 @@ printf '%s  %s\n' "$EGGS_DIGEST" "$EGGS_TMP/$EGGS_ASSET" | sha256sum --check --s
 
 mkdir -p "$EGGS_TMP/unpacked"
 unzip -q "$EGGS_TMP/$EGGS_ASSET" -d "$EGGS_TMP/unpacked"
-set --
-while IFS= read -r -d '' package; do
-  set -- "$@" "$package"
-done <<EOF
-$(find "$EGGS_TMP/unpacked" -type f -name '*.deb' -print0)
-EOF
-[ "$#" -gt 0 ] || {
+DEB_LIST=$(find "$EGGS_TMP/unpacked" -type f -name '*.deb' -print)
+[ -n "$DEB_LIST" ] || {
   echo "The official Penguins' Eggs Debian archive did not contain any .deb packages." >&2
   find "$EGGS_TMP/unpacked" -maxdepth 3 -type f -print >&2
   exit 1
 }
-dpkg -i "$@" || apt-get install -f -y
+# The temporary extraction path contains no spaces; install every .deb in the release archive.
+# shellcheck disable=SC2086
+dpkg -i $DEB_LIST || apt-get install -f -y
 command -v eggs >/dev/null 2>&1 || { echo "Penguins' Eggs did not install an eggs command." >&2; exit 1; }
 eggs version
 
