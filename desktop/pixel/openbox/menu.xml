@@ -3,10 +3,12 @@
   <menu id="root-menu" label="ASTRAL">
     <item label="File Manager"><action name="Execute"><command>pcmanfm</command></action></item>
     <item label="Terminal"><action name="Execute"><command>lxterminal</command></action></item>
-    <item label="Web Browser"><action name="Execute"><command> x-www-browser </command></action></item>
+    <item label="Web Browser"><action name="Execute"><command>x-www-browser</command></action></item>
     <separator/>
     <item label="Desktop Settings"><action name="Execute"><command>lxappearance</command></action></item>
     <separator/>
-    <item label="Log Out"><action name="Exit"/></item>
+    <item label="Log Out (with sound)"><action name="Execute"><command>/usr/local/bin/astral-power.sh logout PIXEL</command></action></item>
+    <item label="Restart (with sound)"><action name="Execute"><command>/usr/local/bin/astral-power.sh reboot PIXEL</command></action></item>
+    <item label="Shut Down (with sound)"><action name="Execute"><command>/usr/local/bin/astral-power.sh shutdown PIXEL</command></action></item>
   </menu>
 </openbox_menu>
