@@ -4,6 +4,4 @@ sleep 1
 if command -v feh >/dev/null 2>&1; then
   feh --bg-fill /usr/share/astral/pixel/wallpaper.svg
 fi
-if command -v canberra-gtk-play >/dev/null 2>&1 && [ -r /usr/share/sounds/ASTRAL-PIXEL/stereo/desktop-login.wav ]; then
-  canberra-gtk-play --file=/usr/share/sounds/ASTRAL-PIXEL/stereo/desktop-login.wav >/dev/null 2>&1 &
-fi
+/usr/local/bin/astral-play-style-sound PIXEL startup >/dev/null 2>&1 &
