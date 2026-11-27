@@ -1,0 +1,40 @@
+name: ASTRAL ISO build
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "installers/iso/**"
+      - ".github/workflows/iso-build.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-classic-iso:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install image builder
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y live-build xorriso squashfs-tools
+      - name: Build ASTRAL Classic ISO
+        run: sudo sh installers/iso/build-iso.sh
+      - name: Validate ISO and checksum
+        run: |
+          test -s dist/astral-classic-amd64.iso
+          test -s dist/astral-classic-amd64.iso.sha256
+          file dist/astral-classic-amd64.iso
+          xorriso -indev dist/astral-classic-amd64.iso -report_el_torito plain
+          (cd dist && sha256sum -c astral-classic-amd64.iso.sha256)
+      - name: Upload ISO artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: astral-classic-amd64-iso
+          path: |
+            dist/astral-classic-amd64.iso
+            dist/astral-classic-amd64.iso.sha256
+          if-no-files-found: error
