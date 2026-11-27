@@ -5,6 +5,11 @@ on:
   push:
     paths:
       - "installers/iso/**"
+      - "scripts/install-pixel.sh"
+      - "scripts/play-style-sound.sh"
+      - "scripts/astral-power.sh"
+      - "desktop/pixel/**"
+      - "desktop/sounds/**"
       - ".github/workflows/iso-build.yml"
 
 permissions:
@@ -13,24 +18,43 @@ permissions:
 jobs:
   build-classic-iso:
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 180
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install image builder
+
+      - name: Prepare isolated Ubuntu builder
         run: |
-          sudo apt-get update
-          sudo apt-get install -y live-build xorriso squashfs-tools
-      - name: Build ASTRAL Classic ISO
-        run: sudo sh installers/iso/build-iso.sh
-      - name: Validate ISO and checksum
+          docker pull ubuntu:24.04
+          docker create --privileged --name astral-eggs-builder ubuntu:24.04 sleep infinity
+          docker start astral-eggs-builder
+          docker cp "$GITHUB_WORKSPACE/." astral-eggs-builder:/tmp/astral-source
+
+      - name: Build ASTRAL Classic with Penguins' Eggs
         run: |
-          test -s dist/astral-classic-amd64.iso
-          test -s dist/astral-classic-amd64.iso.sha256
-          file dist/astral-classic-amd64.iso
-          xorriso -indev dist/astral-classic-amd64.iso -report_el_torito plain
-          (cd dist && sha256sum -c astral-classic-amd64.iso.sha256)
+          docker exec astral-eggs-builder bash /tmp/astral-source/installers/iso/build-iso.sh
+
+      - name: Retrieve and validate ISO
+        if: always()
+        run: |
+          mkdir -p dist
+          if docker container inspect astral-eggs-builder >/dev/null 2>&1; then
+            docker cp astral-eggs-builder:/home/eggs/astral-classic-amd64.iso dist/ 2>/dev/null || true
+            docker cp astral-eggs-builder:/home/eggs/astral-classic-amd64.iso.sha256 dist/ 2>/dev/null || true
+          fi
+          if [ -s dist/astral-classic-amd64.iso ]; then
+            sudo apt-get update
+            sudo apt-get install -y xorriso
+            file dist/astral-classic-amd64.iso
+            xorriso -indev dist/astral-classic-amd64.iso -report_el_torito plain
+            (cd dist && sha256sum -c astral-classic-amd64.iso.sha256)
+          else
+            echo "No ISO artifact was produced by the Penguins' Eggs build."
+            exit 1
+          fi
+
       - name: Upload ISO artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: astral-classic-amd64-iso
@@ -38,3 +62,7 @@ jobs:
             dist/astral-classic-amd64.iso
             dist/astral-classic-amd64.iso.sha256
           if-no-files-found: error
+
+      - name: Remove builder container
+        if: always()
+        run: docker rm -f astral-eggs-builder 2>/dev/null || true
