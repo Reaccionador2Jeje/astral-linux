@@ -22,14 +22,15 @@ This checks required project files, PIXEL XML, shell syntax, and generates all f
 sudo sh ./scripts/install-pixel.sh
 ```
 
-The installer installs Openbox, tint2, PCManFM, LXTerminal, LXAppearance, feh, Python 3, and the Canberra GTK sound player; generates the five original ASTRAL sound themes; installs the ASTRAL PIXEL session entry; and seeds the default desktop configuration for new users and the invoking user. Select **ASTRAL PIXEL** from the display manager's session chooser, then sign in. PIXEL plays its original startup cue at login.
+The installer installs Openbox, tint2, PCManFM, LXTerminal, LXAppearance, feh, Python 3, and the Canberra GTK sound player; generates all eleven original ASTRAL sound themes, each with dedicated startup and shutdown cues; installs the ASTRAL PIXEL session entry; and seeds the default desktop configuration for new users and the invoking user. Select **ASTRAL PIXEL** from the display manager's session chooser, then sign in. PIXEL plays its original startup cue at login. Its power menu plays the shutdown cue before restart or power-off.
 
 This modifies the selected Ubuntu installation. Review the script before running it on an important machine.
 
-Sound events can be previewed with:
+Startup and shutdown cues can be previewed with:
 
 ```sh
-scripts/play-style-sound.sh PIXEL desktop-login
+scripts/play-style-sound.sh PIXEL startup
+scripts/play-style-sound.sh PIXEL shutdown
 scripts/play-style-sound.sh NOVA message-new-instant
 ```
 
