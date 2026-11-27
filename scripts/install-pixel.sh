@@ -10,7 +10,7 @@ ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 PIXEL="$ROOT/desktop/pixel"
 SOUND_GENERATOR="$ROOT/desktop/sounds/generate-sounds.py"
 
-for file in "$PIXEL/openbox/rc.xml" "$PIXEL/openbox/menu.xml" "$PIXEL/tint2/tint2rc" "$PIXEL/autostart" "$PIXEL/astral-pixel.desktop" "$PIXEL/wallpaper.svg" "$SOUND_GENERATOR"; do
+for file in "$PIXEL/openbox/rc.xml" "$PIXEL/openbox/menu.xml" "$PIXEL/tint2/tint2rc" "$PIXEL/autostart" "$PIXEL/astral-pixel.desktop" "$PIXEL/wallpaper.svg" "$SOUND_GENERATOR" "$ROOT/scripts/play-style-sound.sh" "$ROOT/scripts/astral-power.sh"; do
   if [ ! -s "$file" ]; then
     echo "Missing required ASTRAL asset: $file" >&2
     exit 1
@@ -23,12 +23,14 @@ apt-get install -y --no-install-recommends openbox tint2 pcmanfm lxterminal lxap
 
 python3 "$SOUND_GENERATOR"
 
-install -d /usr/share/astral/pixel /etc/skel/.config/openbox /etc/skel/.config/tint2
+install -d /usr/share/astral/pixel /etc/skel/.config/openbox /etc/skel/.config/tint2 /usr/local/bin
 install -m 0644 "$PIXEL/wallpaper.svg" /usr/share/astral/pixel/wallpaper.svg
 install -m 0644 "$PIXEL/openbox/rc.xml" /etc/skel/.config/openbox/rc.xml
 install -m 0644 "$PIXEL/openbox/menu.xml" /etc/skel/.config/openbox/menu.xml
 install -m 0644 "$PIXEL/tint2/tint2rc" /etc/skel/.config/tint2/tint2rc
 install -m 0644 "$PIXEL/autostart" /etc/skel/.config/openbox/autostart
+install -m 0755 "$ROOT/scripts/play-style-sound.sh" /usr/local/bin/astral-play-style-sound
+install -m 0755 "$ROOT/scripts/astral-power.sh" /usr/local/bin/astral-power.sh
 install -d /usr/share/xsessions
 install -m 0644 "$PIXEL/astral-pixel.desktop" /usr/share/xsessions/astral-pixel.desktop
 
@@ -44,5 +46,5 @@ if [ -n "$TARGET_USER" ] && [ "$TARGET_USER" != root ]; then
   fi
 fi
 
-echo "ASTRAL PIXEL and its original sound themes are installed."
+echo "ASTRAL PIXEL installed with startup/shutdown sound actions for all styles."
 echo "Select 'ASTRAL PIXEL' at the login screen."
