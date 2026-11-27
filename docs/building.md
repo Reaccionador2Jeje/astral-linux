@@ -19,7 +19,7 @@ This checks required project files, PIXEL assets, shell syntax, and the Openbox 
 ## Install PIXEL on an existing Ubuntu installation
 
 ```sh
-sudo ./scripts/install-pixel.sh
+sudo sh ./scripts/install-pixel.sh
 ```
 
 The installer installs Openbox, tint2, PCManFM, LXTerminal, LXAppearance, and the wallpaper utility; installs the ASTRAL PIXEL session entry; and seeds the default configuration for new users and the invoking user. Select **ASTRAL PIXEL** from the display manager's session chooser, then sign in.
