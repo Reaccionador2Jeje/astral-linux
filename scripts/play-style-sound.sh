@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
 STYLE=${1:-PIXEL}
-EVENT=${2:-desktop-login}
-case "$STYLE" in PIXEL|DOSERA|MOSAIC|FORGE|NOVA) ;; *) echo "Unknown ASTRAL style: $STYLE" >&2; exit 2 ;; esac
-case "$EVENT" in desktop-login|desktop-logout|message-new-instant|dialog-warning|dialog-error|device-added|device-removed) ;; *) echo "Unsupported sound event: $EVENT" >&2; exit 2 ;; esac
+EVENT=${2:-startup}
+case "$STYLE" in PIXEL|DOSERA|MOSAIC|FORGE|NOVA|HORIZON|AEROLITH|PRISM|LUMEN|TILESHIFT|METROVA) ;; *) echo "Unknown ASTRAL style: $STYLE" >&2; exit 2 ;; esac
+case "$EVENT" in startup|shutdown|desktop-login|desktop-logout|message-new-instant|dialog-warning|dialog-error|device-added|device-removed) ;; *) echo "Unsupported sound event: $EVENT" >&2; exit 2 ;; esac
 SOUND="/usr/share/sounds/ASTRAL-$STYLE/stereo/$EVENT.wav"
 if [ ! -r "$SOUND" ]; then
   echo "Sound not installed: $SOUND" >&2
