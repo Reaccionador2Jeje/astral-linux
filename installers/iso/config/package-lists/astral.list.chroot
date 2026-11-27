@@ -1,8 +1,5 @@
-# Ubuntu Noble live system packages for the first Limbo-compatible ISO.
-casper
-live-boot
-live-config
-live-config-systemd
+# Ubuntu 24.04 packages for the ASTRAL Classic PIXEL live system.
+# Penguins' Eggs supplies the live-image boot/remaster layer; do not add casper/live-boot here.
 xserver-xorg
 xinit
 openbox
@@ -18,8 +15,7 @@ alsa-utils
 pulseaudio
 paprefs
 python3
-python3-pip
-fonts-dejavu
+fonts-dejavu-core
 calamares
 grub-pc-bin
 grub-efi-amd64-bin
