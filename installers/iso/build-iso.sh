@@ -28,13 +28,11 @@ lb config \
   --architectures "$ARCH" \
   --archive-areas "main universe multiverse" \
   --binary-images iso-hybrid \
-  --bootloaders "grub-efi,syslinux" \
   --debian-installer false \
   --apt-recommends true \
   --iso-application "ASTRAL Linux" \
   --iso-publisher "AtDev" \
   --iso-volume "ASTRAL_CLASSIC" \
-  --image-name "astral-classic"
 
 lb build
 ISO=$(find "$WORK_DIR" -maxdepth 1 -type f -name '*.iso' -print -quit)
