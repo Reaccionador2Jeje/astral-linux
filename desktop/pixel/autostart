@@ -1,0 +1,6 @@
+# ASTRAL PIXEL session startup
+tint2 &
+sleep 1
+if command -v feh >/dev/null 2>&1; then
+  feh --bg-fill /usr/share/astral/pixel/wallpaper.svg
+fi
