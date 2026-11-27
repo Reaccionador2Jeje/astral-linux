@@ -45,3 +45,14 @@ Classic PC targets include legacy BIOS/MBR, VGA-compatible graphics, IDE/PATA st
 Early development. The Classic/Modern system installers are available for existing Ubuntu amd64 installations. Initial Calamares configuration and ASTRAL branding have been added for the future graphical installer, but they are scaffolding only. A bootable ASTRAL ISO with a tested graphical disk installer is **not yet available**. Legacy 32-bit support is separate research.
 
 See [installers](installers/README.md), [desktop personalities](desktop/README.md), [hardware compatibility](docs/hardware-compatibility.md), and [building](docs/building.md).
+
+
+## Official download portal
+
+ASTRAL's public download center lists all three planned editions and all eleven desktop personalities, and checks the public GitHub Releases catalog for published ISO assets:
+
+- Portal: https://astral-linux.cristopheriguaran-7.workers.dev/
+- Source page: [site/index.html](site/index.html)
+- Releases: https://github.com/Reaccionador2Jeje/astral-linux/releases
+
+The portal deliberately marks unreleased images as in preparation. A style appearing in the catalog does not mean its desktop session or ISO is already built and tested. The first experimental ISO target is Classic/PIXEL for amd64.
