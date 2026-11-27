@@ -1,0 +1,12 @@
+# ASTRAL Linux installer branding
+componentName: ASTRAL Linux
+welcomeStyle: sidebar
+strings:
+  productName: ASTRAL Linux
+  shortProductName: ASTRAL
+  version: 0.1
+  shortVersion: "0.1"
+  bootloaderEntryName: ASTRAL Linux
+  productUrl: https://github.com/Reaccionador2Jeje/astral-linux
+  supportUrl: https://github.com/Reaccionador2Jeje/astral-linux/issues
+  knownIssuesUrl: https://github.com/Reaccionador2Jeje/astral-linux/issues
