@@ -1,6 +1,6 @@
 # ASTRAL sound themes
 
-All eleven ASTRAL desktop personalities have original synthesized sound palettes. No Windows sound files, recordings, or copyrighted startup jingles are included.
+All eleven ASTRAL desktop personalities have original synthesized sound palettes. Every personality has dedicated **startup** and **shutdown** cues, as well as optional desktop logout, message, warning, error, and device events. No Windows sound files, recordings, or copyrighted startup jingles are included.
 
 | Personality | Sound character |
 |---|---|
@@ -16,22 +16,24 @@ All eleven ASTRAL desktop personalities have original synthesized sound palettes
 | TILESHIFT | Short, rhythmic electronic tones |
 | METROVA | Balanced hybrid melody |
 
-Each theme includes desktop login/logout, new-message, warning/error, and device connect/disconnect cues. The current PIXEL session plays its own login cue. Other personalities can call `scripts/play-style-sound.sh STYLE EVENT` as their desktop sessions are implemented.
-
-Generate the themes on an Ubuntu system with:
+## Generate and preview
 
 ```sh
 sudo python3 desktop/sounds/generate-sounds.py
+scripts/play-style-sound.sh PIXEL startup
+scripts/play-style-sound.sh PIXEL shutdown
+scripts/play-style-sound.sh HORIZON startup
+scripts/play-style-sound.sh TILESHIFT shutdown
 ```
 
-Example:
+Supported styles: PIXEL, DOSERA, MOSAIC, FORGE, NOVA, HORIZON, AEROLITH, PRISM, LUMEN, TILESHIFT, METROVA.
 
-```sh
-scripts/play-style-sound.sh PIXEL desktop-login
-scripts/play-style-sound.sh HORIZON device-added
-scripts/play-style-sound.sh TILESHIFT dialog-warning
-```
+## Power actions
 
-Available styles: PIXEL, DOSERA, MOSAIC, FORGE, NOVA, HORIZON, AEROLITH, PRISM, LUMEN, TILESHIFT, METROVA.
+The PIXEL menu offers **Log Out**, **Restart**, and **Shut Down** with sound. Restart and shutdown play the selected style's shutdown cue before asking systemd to perform the action. The generic `scripts/astral-power.sh` command accepts an action and a style name, so the other desktop sessions can reuse it.
+
+Example: `astral-power.sh shutdown AEROLITH`.
+
+A shutdown cue is guaranteed when power-off/restart is initiated through the ASTRAL power menu. Physical power-button handling and shutdown initiated by external desktop managers need separate integration with those environments.
 
 Audio playback requires a working desktop audio service and `canberra-gtk-play` (provided by `libcanberra-gtk3-module`).
