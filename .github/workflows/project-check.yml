@@ -9,10 +9,12 @@ permissions:
   contents: read
 
 jobs:
-  structure:
+  structure-and-desktop:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Check project structure
+      - name: Install validation tools
+        run: sudo apt-get update && sudo apt-get install -y make python3
+      - name: Validate project and PIXEL desktop
         run: make check
