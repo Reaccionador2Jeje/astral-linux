@@ -9,9 +9,19 @@ ARCH=${ASTRAL_ARCH:-amd64}
 CODENAME=${ASTRAL_UBUNTU_CODENAME:-noble}
 
 if [ "$(id -u)" -ne 0 ]; then
-  echo "This build must run as root inside the isolated Ubuntu builder." >&2
+  echo "Run this build as root on the dedicated disposable VM." >&2
   exit 1
 fi
+[ -f /etc/astral-ephemeral-builder ] || {
+  echo "Refusing to remaster: /etc/astral-ephemeral-builder is missing." >&2
+  echo "Use a dedicated disposable VM, never a personal workstation." >&2
+  exit 1
+}
+ROOT_FS=$(findmnt -n -o FSTYPE / 2>/dev/null || true)
+[ "$ROOT_FS" != overlay ] || {
+  echo "Refusing to run Penguins' Eggs on an OverlayFS root/container." >&2
+  exit 1
+}
 [ "$ARCH" = amd64 ] || { echo "Only amd64 is supported." >&2; exit 2; }
 [ "$CODENAME" = noble ] || { echo "Only Ubuntu 24.04 Noble is configured." >&2; exit 2; }
 [ -s /etc/os-release ] || { echo "Cannot identify the build system." >&2; exit 1; }
@@ -77,18 +87,18 @@ sed -i \
   -e 's/^NAME=.*/NAME="ASTRAL Linux"/' \
   -e 's/^PRETTY_NAME=.*/PRETTY_NAME="ASTRAL Linux Classic"/' \
   /etc/os-release
-printf 'ASTRAL Linux Classic\\n' > /etc/issue
-printf 'astral\\n' > /etc/hostname
+printf 'ASTRAL Linux Classic\n' > /etc/issue
+printf 'astral\n' > /etc/hostname
 
 echo "[ASTRAL] Removing build-only files before remastering..."
 rm -rf "$EGGS_TMP"
 rm -rf /var/lib/apt/lists/*
 apt-get clean
-rm -rf /tmp/astral-source /root/.cache /root/.npm /root/.local/share/Trash
+rm -rf /root/.cache /root/.npm /root/.local/share/Trash
 mkdir -p "$OUT_DIR"
 rm -f "$OUT_DIR"/*.iso "$OUT_DIR"/*.sha256
 
-echo "[ASTRAL] Creating a standard, redistributable Live ISO with Penguins' Eggs..."
+echo "[ASTRAL] Creating the Live ISO with Penguins' Eggs on the VM host..."
 cd /
 eggs tools repo add
 eggs remaster
