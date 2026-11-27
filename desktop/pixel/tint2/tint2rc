@@ -8,18 +8,18 @@ panel_background_id = 1
 wm_menu = 1
 panel_dock = 0
 panel_layer = top
-panel_items = P:T: taskbar
+panel_items = T:C
 
-# Backgrounds
+# Panel background
 rounded = 0
 border_width = 1
 background_color = #d7dce5 100
 border_color = #596579 100
 background_id = 1
 
-# Launcher and taskbar
+# Task list
 taskbar_mode = single_desktop
-taskbar_padding = 2 2 2
+taskbar_padding = 4 2 4
 taskbar_background_id = 0
 taskbar_active_background_id = 2
 taskbar_name = 1
@@ -30,11 +30,8 @@ taskbar_name_active_background_id = 2
 taskbar_sort_order = none
 taskbar_width = 0
 taskbar_height = 28
-taskbar_padding = 4 2 4
-taskbar_background_id = 0
-taskbar_active_background_id = 2
 
-# Active window button
+# Active window
 rounded = 0
 background_color = #b8c5d8 100
 border_color = #53657c 100
