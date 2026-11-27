@@ -1,16 +1,29 @@
 #!/bin/sh
 set -eu
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-sh -n "$ROOT/installers/iso/build-iso.sh"
+WORKFLOW="$ROOT/.github/workflows/iso-build.yml"
+BUILD="$ROOT/installers/iso/build-iso.sh"
+README="$ROOT/installers/iso/README.md"
+
+sh -n "$BUILD"
 test -s "$ROOT/installers/iso/config/package-lists/astral.list.chroot"
 test -s "$ROOT/desktop/pixel/astral-pixel.desktop"
 test -s "$ROOT/desktop/pixel/openbox/rc.xml"
 test -s "$ROOT/desktop/pixel/tint2/tint2rc"
-grep -q 'Penguins' "$ROOT/installers/iso/README.md"
-grep -q 'eggs remaster' "$ROOT/installers/iso/README.md"
-grep -q 'docker create --privileged' "$ROOT/installers/iso/README.md"
-if grep -R -n -E '(^|[[:space:]])lb (config|build)|live-build' "$ROOT/installers/iso/build-iso.sh" "$ROOT/.github/workflows/iso-build.yml"; then
+grep -q 'Penguins' "$README"
+grep -q 'eggs remaster' "$README"
+grep -q 'self-hosted' "$WORKFLOW"
+grep -q 'astral-eggs-vm' "$WORKFLOW"
+grep -q '/etc/astral-ephemeral-builder' "$WORKFLOW"
+grep -q 'findmnt -n -o FSTYPE /' "$BUILD"
+grep -q '/etc/astral-ephemeral-builder' "$BUILD"
+
+if grep -n -E 'docker (create|run|exec)|runs-on: ubuntu-' "$WORKFLOW"; then
+  echo "The active Eggs remaster workflow must not use a container or hosted runner." >&2
+  exit 1
+fi
+if grep -R -n -E '(^|[[:space:]])lb (config|build)|live-build' "$BUILD" "$WORKFLOW"; then
   echo "Live-Build references remain in the active ISO pipeline." >&2
   exit 1
 fi
-echo "ASTRAL Penguins' Eggs ISO build configuration checks passed."
+echo "ASTRAL Penguins' Eggs dedicated-VM ISO configuration checks passed."
