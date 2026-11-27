@@ -13,6 +13,12 @@ PROFILES = {
     "MOSAIC": {"notes": (523, 659, 784), "wave": "sine", "length": 0.20},
     "FORGE": {"notes": (392, 494, 587), "wave": "triangle", "length": 0.14},
     "NOVA": {"notes": (784, 988, 1175), "wave": "sine", "length": 0.22},
+    "HORIZON": {"notes": (523, 659, 784), "wave": "sine", "length": 0.19},
+    "AEROLITH": {"notes": (587, 880, 1175), "wave": "triangle", "length": 0.24},
+    "PRISM": {"notes": (698, 880, 1047), "wave": "sine", "length": 0.21},
+    "LUMEN": {"notes": (587, 740, 880), "wave": "triangle", "length": 0.16},
+    "TILESHIFT": {"notes": (440, 554, 659), "wave": "square", "length": 0.11},
+    "METROVA": {"notes": (494, 659, 831), "wave": "sine", "length": 0.18},
 }
 EVENTS = {
     "desktop-login": (0, 1, 2),
@@ -61,7 +67,7 @@ def main():
             notes = [profile["notes"][n] for n in sequence]
             duration = profile["length"] * len(notes)
             write_tone(os.path.join(directory, event + ".wav"), notes, profile, duration)
-    print("Generated five original ASTRAL sound themes.")
+    print(f"Generated {len(PROFILES)} original ASTRAL sound themes.")
 
 if __name__ == "__main__":
     main()
