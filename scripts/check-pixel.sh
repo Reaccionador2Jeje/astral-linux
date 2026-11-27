@@ -7,6 +7,7 @@ for file in openbox/rc.xml openbox/menu.xml tint2/tint2rc autostart astral-pixel
 done
 test -s "$ROOT/desktop/sounds/generate-sounds.py"
 test -s "$ROOT/scripts/play-style-sound.sh"
+test -s "$ROOT/scripts/astral-power.sh"
 
 if command -v python3 >/dev/null 2>&1; then
   python3 - "$PIXEL/openbox/rc.xml" "$PIXEL/openbox/menu.xml" <<'PY'
@@ -23,7 +24,7 @@ PY
 import os, sys, wave
 root = sys.argv[1]
 styles = ("PIXEL", "DOSERA", "MOSAIC", "FORGE", "NOVA", "HORIZON", "AEROLITH", "PRISM", "LUMEN", "TILESHIFT", "METROVA")
-events = ("desktop-login", "desktop-logout", "message-new-instant",
+events = ("startup", "shutdown", "desktop-login", "desktop-logout", "message-new-instant",
           "dialog-warning", "dialog-error", "device-added", "device-removed")
 for style in styles:
     base = os.path.join(root, "ASTRAL-" + style, "stereo")
@@ -32,9 +33,10 @@ for style in styles:
         with wave.open(path, "rb") as audio:
             assert audio.getnchannels() == 1 and audio.getframerate() == 22050
             assert audio.getnframes() > 0
-print("ASTRAL sound themes: valid (11 styles, 7 events each)")
+print("ASTRAL sound themes: valid (11 styles, 9 events each)")
 PY
 fi
 sh -n "$ROOT/scripts/install-pixel.sh"
 sh -n "$ROOT/scripts/play-style-sound.sh"
+sh -n "$ROOT/scripts/astral-power.sh"
 echo "ASTRAL PIXEL assets: OK"
