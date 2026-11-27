@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=ASTRAL PIXEL
+Comment=Classic ASTRAL desktop
+Exec=openbox-session
+TryExec=openbox-session
+Type=Application
+DesktopNames=ASTRAL
