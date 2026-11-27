@@ -1,11 +1,11 @@
 # ASTRAL desktop personalities
 
-The five personalities are planned as original ASTRAL themes/layouts:
+ASTRAL personalities are selectable desktop configurations, not separate operating systems.
 
-- DOSERA
-- PIXEL
-- MOSAIC
-- FORGE
-- NOVA
+- **PIXEL** — first implementation: Openbox session, tint2 taskbar/clock, PCManFM file manager, LXTerminal, classic keyboard shortcuts, and original ASTRAL wallpaper.
+- **DOSERA** — planned compact, grouped application layout.
+- **MOSAIC** — planned panel-oriented workspace.
+- **FORGE** — planned productivity-focused layout.
+- **NOVA** — planned colorful multimedia layout.
 
-The first working desktop target is PIXEL. These names describe visual configurations, not separate operating systems.
+PIXEL assets live in `desktop/pixel/`. Install on a compatible Ubuntu system with `sudo ./scripts/install-pixel.sh`; validate with `make check`.
